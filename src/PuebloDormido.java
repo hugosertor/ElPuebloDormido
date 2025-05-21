@@ -16,6 +16,7 @@ public class PuebloDormido {
 
         generarPoblacionAleatoria();
         Ciudadano.poblacionesTotales(ciudadanos);
+        System.out.println("prubaaaa");
 
         // Bucle principal del programa
         boolean continuar = true;
