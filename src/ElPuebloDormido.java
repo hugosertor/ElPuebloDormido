@@ -12,6 +12,7 @@ public class ElPuebloDormido {
 
     public static void main(String[] args) {
         System.out.println("=== BIENVENIDO AL PUEBLO DORMIDO ===");
+        System.out.printf("AAAAAAAAA HOLAAA");
 
         generarPoblacionAleatoria();
         Ciudadano.poblacionesTotales(ciudadanos);
