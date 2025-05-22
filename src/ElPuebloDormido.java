@@ -8,47 +8,50 @@ public class ElPuebloDormido {
 
     private static ArrayList<Ciudadano> ciudadanos = new ArrayList<>();
     private static Random aleatorio = new Random();
-    private static Scanner scanner = new Scanner(System.in);
+
+
 
     public static void main(String[] args) {
         System.out.println("=== BIENVENIDO AL PUEBLO DORMIDO ===");
-        System.out.printf("AAAAAAAAA HOLAAA");
 
         generarPoblacionAleatoria();
         Ciudadano.poblacionesTotales(ciudadanos);
+        System.out.println("prubaaaa");
 
+        // Bucle principal del programa
         boolean continuar = true;
         while (continuar) {
             try {
                 continuar = mostrarMenu(continuar);
                 verificarPoblacion();
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+
+                /// //////////////////////
+                /// /AQUI HAY UN ERROR///
+                /// ////////////////////
+                System.out.println("Error   aaa: " + e.getMessage());
             }
         }
 
         System.out.println("=== FIN DEL PROGRAMA ===");
-        scanner.close();
     }
 
+
+
+
+
+
+
+
+
     public static boolean mostrarMenu(boolean continuar) {
-        System.out.println("                   |>>>                  |>>>");
-        System.out.println("                   |                     |");
-        System.out.println("               _  _|_  _             _  _|_  _");
-        System.out.println("              | |_| |_| |           | |_| |_| |");
-        System.out.println("              \\  .      /           \\  .      /");
-        System.out.println("               |   .   |             |   .   |");
-        System.out.println("           ____|_______|_____________|_______|____");
-        System.out.println("          /_____________=== MENÚ ===______________\\");
-        System.out.println("         |_________________________________________|");
-        System.out.println("         ||                                       ||");
-        System.out.println("         ||                                       ||");
-        System.out.println("         ||             1. Mostrar censo          ||");
-        System.out.println("         ||             2. Pasar un año           ||");
-        System.out.println("         ||             3. Salir del programa     ||");
-        System.out.println("         ||             Seleccione una opción:    ||");
-        System.out.println("         ||_______________________________________||");
-        System.out.println("         |_________________________________________|");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n=== MENÚ ===");
+        System.out.println("1. Mostrar censo");
+        System.out.println("2. Pasar un año");
+        System.out.println("3. Salir del programa");
+        System.out.print("Seleccione una opción: ");
 
         int opcion = scanner.nextInt();
 
@@ -70,6 +73,11 @@ public class ElPuebloDormido {
         return continuar;
     }
 
+
+
+
+
+    // Genera una población inicial aleatoria
     public static void generarPoblacionAleatoria() {
         int cantidad = aleatorio.nextInt(POBLACION_MAXIMA - POBLACION_MINIMA + 1) + POBLACION_MINIMA;
 
@@ -80,8 +88,13 @@ public class ElPuebloDormido {
         System.out.println("Se ha generado una población inicial de " + cantidad + " ciudadanos.");
     }
 
+
+
+
+
+    // Crea un ciudadano aleatorio (Humano, Lobo o Vampiro)
     public static Ciudadano obtenerCiudadanoAleatorio() {
-        int tipo = aleatorio.nextInt(3);
+        int tipo = (int) (Math.random() * 3);
 
         switch (tipo) {
             case 0: return new Humano();
@@ -91,6 +104,11 @@ public class ElPuebloDormido {
         }
     }
 
+
+
+
+
+    // Simula el paso de un año en el pueblo
     public static void pasarAnyo() {
         if (ciudadanos.isEmpty()) {
             throw new IllegalStateException("No hay ciudadanos disponibles.");
@@ -98,15 +116,22 @@ public class ElPuebloDormido {
 
         System.out.println("\n=== PASA UN AÑO EN EL PUEBLO DORMIDO ===");
 
-        ArrayList<Ciudadano> copiaCiudadanos = new ArrayList<>(ciudadanos);
+        for (Ciudadano ciudadano : ciudadanos){
 
-        for (Ciudadano ciudadano : copiaCiudadanos) {
+        }
+
+
+        for (Ciudadano ciudadano : ciudadanos) {
+            // Si el ciudadano ya murió, lo saltamos
             if (!ciudadanos.contains(ciudadano)) continue;
 
             try {
+                // Seleccionar un oponente aleatorio
                 Ciudadano oponente = obtenerOponenteAleatorio(ciudadanos.indexOf(ciudadano));
+                // Realizar acción (combatir o reproducirse)
                 realizarAccion(ciudadano, oponente);
 
+                // Envejecer al ciudadano si es un ser vivo
                 if (ciudadano instanceof CicloVital) {
                     ((CicloVital)ciudadano).envejecer(ciudadanos);
                 }
@@ -116,9 +141,15 @@ public class ElPuebloDormido {
         }
 
         System.out.println("=== FIN DEL AÑO ===");
+        // Mostrar estadísticas actualizadas
         Ciudadano.poblacionesTotales(ciudadanos);
     }
 
+
+
+
+
+    // Obtiene un oponente aleatorio diferente al ciudadano actual
     public static Ciudadano obtenerOponenteAleatorio(int actual) {
         if (ciudadanos.size() <= 1) {
             throw new IllegalStateException("No hay ningún oponente disponible.");
@@ -132,16 +163,23 @@ public class ElPuebloDormido {
         return ciudadanos.get(oponenteIndex);
     }
 
+
+
+
+
+    // Decide qué acción realizar entre dos ciudadanos
     public static void realizarAccion(Ciudadano ciudadano1, Ciudadano ciudadano2) {
         if (ciudadano1 == null || ciudadano2 == null) {
             throw new IllegalArgumentException("Los oponentes no pueden ser null.");
         }
 
+        // Si son del mismo tipo, se reproducen (si pueden)
         if (ciudadano1.getClass() == ciudadano2.getClass()) {
             if (ciudadano1 instanceof CicloVital) {
                 ((CicloVital)ciudadano1).reproducir(ciudadanos);
             }
         } else {
+            // Si son de diferente tipo, combaten
             Ciudadano perdedor = ciudadano1.combate(ciudadano2);
             if (perdedor != null) {
                 perdedor.morir(ciudadanos);
@@ -149,6 +187,11 @@ public class ElPuebloDormido {
         }
     }
 
+
+
+
+
+    // Verifica si solo queda un tipo de ciudadano en el pueblo
     public static void verificarPoblacion() {
         if (ciudadanos.isEmpty()) return;
 
