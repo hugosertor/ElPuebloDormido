@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class Ciudadano implements Batalla {
+public abstract class Ciudadano implements IBatalla {
     protected static int poblacion = 0;
     private String nombre;
 

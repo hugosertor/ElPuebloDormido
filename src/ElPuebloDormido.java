@@ -132,8 +132,8 @@ public class ElPuebloDormido {
                 realizarAccion(ciudadano, oponente);
 
                 // Envejecer al ciudadano si es un ser vivo
-                if (ciudadano instanceof CicloVital) {
-                    ((CicloVital)ciudadano).envejecer(ciudadanos);
+                if (ciudadano instanceof ICicloVital) {
+                    ((ICicloVital)ciudadano).envejecer(ciudadanos);
                 }
             } catch (IllegalStateException e) {
                 System.out.println(e.getMessage());
@@ -175,8 +175,8 @@ public class ElPuebloDormido {
 
         // Si son del mismo tipo, se reproducen (si pueden)
         if (ciudadano1.getClass() == ciudadano2.getClass()) {
-            if (ciudadano1 instanceof CicloVital) {
-                ((CicloVital)ciudadano1).reproducir(ciudadanos);
+            if (ciudadano1 instanceof ICicloVital) {
+                ((ICicloVital)ciudadano1).reproducir(ciudadanos);
             }
         } else {
             // Si son de diferente tipo, combaten

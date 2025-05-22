@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public interface CicloVital {
+public interface ICicloVital {
     int NATALIDAD_MAXIMA = 1;
     int VITALIDAD_MAXIMA = 2;
 

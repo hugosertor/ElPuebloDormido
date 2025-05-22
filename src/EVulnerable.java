@@ -1,3 +1,3 @@
-public enum Vulnerable {
+public enum EVulnerable {
     VAMPIRO, HUMANO, LOBO
 }

@@ -1,3 +1,3 @@
-public interface Batalla {
+public interface IBatalla {
     Ciudadano combate(Ciudadano oponente);
 }

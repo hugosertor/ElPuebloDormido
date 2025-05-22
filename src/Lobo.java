@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public final class Lobo extends Ciudadano implements CicloVital {
+public final class Lobo extends Ciudadano implements ICicloVital {
     private static int totalLobos = 0;
     private static int ultimoLobo = 0;
     private static final Random ALEATORIO = new Random();
 
-    private final Vulnerable VULNERABLE = Vulnerable.HUMANO;
+    private final EVulnerable EVULNERABLE = EVulnerable.HUMANO;
     private int vida;
 
     public Lobo() {
@@ -21,8 +21,8 @@ public final class Lobo extends Ciudadano implements CicloVital {
     public static void setPoblacion(int numero) {
         totalLobos = numero;
     }
-    public Vulnerable getVulnerable() {
-        return VULNERABLE;
+    public EVulnerable getVulnerable() {
+        return EVULNERABLE;
     }
 
 
@@ -84,6 +84,6 @@ public final class Lobo extends Ciudadano implements CicloVital {
 
     @Override
     public String toString() {
-        return super.toString() + " (Lobo) - Vida: " + vida + " - Vulnerable a: " + VULNERABLE;
+        return super.toString() + " (Lobo) - Vida: " + vida + " - Vulnerable a: " + EVULNERABLE;
     }
 }

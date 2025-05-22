@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public final class Vampiro extends Ciudadano {
     private static int totalVampiros = 0;
     private static int ultimoVampiro = 0;
 
-    private final Vulnerable VULNERABLE = Vulnerable.LOBO;
+    private final EVulnerable EVULNERABLE = EVulnerable.LOBO;
 
     public Vampiro() {
         super("VAMPIRO" + ++ultimoVampiro);
@@ -51,6 +50,6 @@ public final class Vampiro extends Ciudadano {
 
     @Override
     public String toString() {
-        return super.toString() + " (Vampiro) - Vulnerable a: " + VULNERABLE;
+        return super.toString() + " (Vampiro) - Vulnerable a: " + EVULNERABLE;
     }
 }
