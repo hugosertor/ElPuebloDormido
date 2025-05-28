@@ -30,14 +30,12 @@ public final class Lobo extends Ciudadano implements ICicloVital {
     public Ciudadano combate(Ciudadano oponente) {
         if (oponente instanceof Vampiro) {
             System.out.println(this.getNombre() + " derrota al vampiro " + oponente.getNombre());
-            oponente.morir(new ArrayList<>());
-            return this;
+            return oponente;
 
         }else if (oponente instanceof Humano){
             System.out.println(this.getNombre() + " es asesinado por " + oponente.getNombre());
-            this.morir(new ArrayList<>());
             totalLobos --;
-            return oponente;
+            return this;
         }
 
         return null;
@@ -50,12 +48,13 @@ public final class Lobo extends Ciudadano implements ICicloVital {
             for (int i = 0; i < cachorros; i++) {
 
                 if (Ciudadano.getPoblacion() < ElPuebloDormido.POBLACION_MAXIMA) {
+                    ultimoLobo ++;
                     Lobo cachorro = new Lobo();
                     ciudadanos.add(cachorro);
                     System.out.println(this.getNombre() + " ha tenido un cachorro: " + cachorro.getNombre());
-                    poblacion ++;
+//                    poblacion ++;
+                    setPoblacion(+1);
                     totalLobos ++;
-                    ultimoLobo ++;
 
                 } else {
                     System.out.println("No se puede reproducir, población máxima alcanzada");
@@ -66,7 +65,7 @@ public final class Lobo extends Ciudadano implements ICicloVital {
 
     @Override
     public void envejecer(ArrayList<Ciudadano> ciudadanos) {
-        vida -= 1;
+        vida -= 2;
         System.out.println(this.getNombre() + " envejece. Vida restante: " + vida);
         if (vida <= 0) {
             morir(ciudadanos);
@@ -78,7 +77,8 @@ public final class Lobo extends Ciudadano implements ICicloVital {
         System.out.println(this.getNombre() + " ha muerto.");
         ciudadanos.remove(this);
         totalLobos--;
-        poblacion--;
+//        poblacion--;
+        setPoblacion(-1);
     }
 
 

@@ -15,6 +15,11 @@ public final class Vampiro extends Ciudadano {
         return totalVampiros;
     }
 
+    public EVulnerable getVulnerable() {
+        return EVULNERABLE;
+    }
+
+
     public static void setPoblacion(int numero) {
         totalVampiros = numero;
     }
@@ -23,28 +28,24 @@ public final class Vampiro extends Ciudadano {
     public Ciudadano combate(Ciudadano oponente) {
         if (oponente instanceof Humano) {
             System.out.println(this.getNombre() + " derrota al " + oponente.getNombre());
-            oponente.morir(new ArrayList<>());
             return this;
 
         }else if (oponente instanceof Lobo){
             System.out.println(this.getNombre() + " es asesinado por " + oponente.getNombre());
-            this.morir(new ArrayList<>());
             return oponente;
         }
 
         return null;
     }
 
-    private void convertirEnVampiro(Humano humano) {
-        System.out.println(humano.getNombre() + " ha sido convertido en vampiro!");
-    }
 
     @Override
     public void morir(ArrayList<Ciudadano> ciudadanos) {
         System.out.println(this.getNombre() + " ha muerto.");
         ciudadanos.remove(this);
         totalVampiros--;
-        poblacion--;
+        setPoblacion(-1);
+//        poblacion--;
     }
 
 

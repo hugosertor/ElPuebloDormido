@@ -30,15 +30,13 @@ public final class Humano extends Ciudadano implements ICicloVital {
     public Ciudadano combate(Ciudadano oponente) {
         if (oponente instanceof Lobo) {
             System.out.println(this.getNombre() + " derrota al lobo " + oponente.getNombre());
-            oponente.morir(new ArrayList<>());
-            return this;
+            return oponente;
 
         }else if (oponente instanceof Vampiro){
             System.out.println(this.getNombre() + " es convertido en vampiro por " + oponente.getNombre());
-            this.morir(new ArrayList<>());
             totalHumanos --;
 
-            return oponente;
+            return this;
         }
 
         return null;
@@ -51,12 +49,13 @@ public final class Humano extends Ciudadano implements ICicloVital {
             for (int i = 0; i < bebes; i++) {
 
                 if (Ciudadano.getPoblacion() < ElPuebloDormido.POBLACION_MAXIMA) {
+                    ultimoHumano ++;
                     Humano bebe = new Humano();
                     ciudadanos.add(bebe);
-                    System.out.println(this.getNombre() + " ha tenido un cachorro: " + bebe.getNombre());
-                    poblacion ++;
+                    System.out.println(this.getNombre() + " ha tenido un bebe: " + bebe.getNombre());
+                    setPoblacion(1);
+//                    poblacion ++;
                     totalHumanos ++;
-                    ultimoHumano ++;
 
                 } else {
                     System.out.println("No se puede reproducir, población máxima alcanzada");
@@ -77,7 +76,8 @@ public final class Humano extends Ciudadano implements ICicloVital {
     @Override
     public void morir(ArrayList<Ciudadano> ciudadanos) {
         ciudadanos.remove(this);
-        poblacion--;
+//        poblacion--;
+        setPoblacion(-1);
         totalHumanos--;
     }
 

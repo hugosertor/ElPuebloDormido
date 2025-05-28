@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class Ciudadano implements IBatalla {
-    protected static int poblacion = 0;
+    private static int poblacion = 0;
     private String nombre;
 
     public Ciudadano(String nombre) {
@@ -14,7 +14,7 @@ public abstract class Ciudadano implements IBatalla {
     }
 
     public static void setPoblacion(int numero) {
-        poblacion = numero;
+        poblacion += numero;
     }
 
     public String getNombre() {
@@ -25,10 +25,7 @@ public abstract class Ciudadano implements IBatalla {
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "Nombre del ciudadano: " + nombre;
-    }
+
 
     public static void censar(ArrayList<Ciudadano> ciudadanos) {
         System.out.println("___Censo del pueblo___");
@@ -59,4 +56,8 @@ public abstract class Ciudadano implements IBatalla {
 
         public abstract void morir(ArrayList<Ciudadano> ciudadanos);
 
+    @Override
+    public String toString() {
+        return "Nombre del ciudadano: " + nombre;
+    }
 }
