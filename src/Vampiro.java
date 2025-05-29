@@ -28,11 +28,11 @@ public final class Vampiro extends Ciudadano {
     public Ciudadano combate(Ciudadano oponente) {
         if (oponente instanceof Humano) {
             System.out.println(this.getNombre() + " derrota al " + oponente.getNombre());
-            return this;
+            return oponente;
 
         }else if (oponente instanceof Lobo){
             System.out.println(this.getNombre() + " es asesinado por " + oponente.getNombre());
-            return oponente;
+            return this;
         }
 
         return null;
