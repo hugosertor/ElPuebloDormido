@@ -66,7 +66,7 @@ public final class Lobo extends Ciudadano implements ICicloVital {
     @Override
     public void envejecer(ArrayList<Ciudadano> ciudadanos) {
         vida -= 2;
-        System.out.println(this.getNombre() + " envejece. Vida restante: " + vida);
+        System.out.println(this.getNombre() + " envejece. Vida restante: " + ((vida < 0) ? "1" : vida));
         if (vida <= 0) {
             morir(ciudadanos);
         }
@@ -84,6 +84,6 @@ public final class Lobo extends Ciudadano implements ICicloVital {
 
     @Override
     public String toString() {
-        return super.toString() + " (Lobo) - Vida: " + vida + " - Vulnerable a: " + EVULNERABLE;
+        return super.toString() + " (Lobo) - Vida: " + ((vida < 0) ? "1" : vida) + " - Vulnerable a: " + EVULNERABLE;
     }
 }

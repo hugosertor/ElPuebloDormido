@@ -107,16 +107,20 @@ public class ElPuebloDormido {
     public static void main(String[] args) {
         System.out.println("=== BIENVENIDO AL PUEBLO DORMIDO ===");
 
+        // Primero se genera la poblacion total
         generarPoblacionAleatoria();
+        //Imprime el numero de ciudadanos de cada tipo que hay
         Ciudadano.poblacionesTotales(ciudadanos);
 
         boolean continuar = true;
+        //Mientras que el menu no sea la opcion 3, el boolean no cambia a false por lo que siempre se esta ejecutando el bucle
         while (continuar) {
             try {
                 continuar = mostrarMenu();
                 verificarPoblacion();
+
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error : " + e.getMessage());
             }
         }
         System.out.println("=== FIN DEL PROGRAMA ===");
@@ -134,10 +138,12 @@ public class ElPuebloDormido {
 
         switch (opcion) {
             case 1:
+                //Pinta todos los ciudadanos y luego el recuento de cada tipo.
                 Ciudadano.censar(ciudadanos);
                 Ciudadano.poblacionesTotales(ciudadanos);
                 break;
             case 2:
+                //Invoca a la funcion de pasar año.
                 pasarAnyo();
                 break;
             case 3:
@@ -149,8 +155,10 @@ public class ElPuebloDormido {
     }
 
     public static void generarPoblacionAleatoria() {
-        int cantidad = aleatorio.nextInt(POBLACION_MAXIMA - POBLACION_MINIMA + 1) + POBLACION_MINIMA;
+        int cantidad = (int) (Math.random() * (POBLACION_MAXIMA - POBLACION_MINIMA + 1)) + POBLACION_MINIMA;
         for (int i = 0; i < cantidad; i++) {
+
+            //LLama a la funcion de obtenerCiudadano aleatorio para crearlo y luego lo añade al Arraylist
             Ciudadano ciudadano = obtenerCiudadanoAleatorio();
             if (ciudadano != null)
                 ciudadanos.add(ciudadano);
@@ -177,17 +185,23 @@ public class ElPuebloDormido {
 
         // 1. Realizar acciones (combates/reproducciones)
         ArrayList<Ciudadano> copiaCiudadanos = new ArrayList<>(ciudadanos);
+
         for (Ciudadano ciudadano : copiaCiudadanos) {
             if (ciudadanos.contains(ciudadano)) { // Verificar si sigue vivo
                 try {
+                    //Primero se elige al oponente
                     Ciudadano oponente = obtenerOponenteAleatorio(ciudadano);
+                    //Despues se realiza la accion (reproduccion o combate)
                     realizarAccion(ciudadano, oponente);
+
                 } catch (IllegalStateException e) {
                     // No hay oponentes disponibles
                     System.out.println("Error: " + e.getMessage());
                 }
             }
         }
+
+        //Todos los ciudadanos que implementen ICicloVital, embejecen.
         copiaCiudadanos = new ArrayList<>(ciudadanos);
         for (Ciudadano ciudadano : copiaCiudadanos) {
             if (ciudadano instanceof ICicloVital) {
@@ -205,6 +219,7 @@ public class ElPuebloDormido {
         do {
             int indice = aleatorio.nextInt(ciudadanos.size());
             oponente = ciudadanos.get(indice);
+            //Si el oponente es igual al ciudadano, no sale del bucle
         } while (oponente == actual);
 
         return oponente;
@@ -228,19 +243,20 @@ public class ElPuebloDormido {
     public static void combatir(Ciudadano oponente1, Ciudadano oponente2) {
         Ciudadano perdedor = oponente1.combate(oponente2);
         if (perdedor != null) {
-            // Caso especial: Conversión humano -> vampiro
+            // Caso especial: Conversión de humano a vampiro
             if (perdedor instanceof Humano && (oponente1 instanceof Vampiro || oponente2 instanceof Vampiro)) {
 
-                // Conservar nombre original
-                String nombreOriginal = perdedor.getNombre();
+                // Conservar nombre original para escribirlo en el mensaje
+                String nombreConvertido = perdedor.getNombre();
 
                 // Eliminar humano
                 perdedor.morir(ciudadanos);
 
-                // Crear nuevo vampiro con nombre relacionado
-                ciudadanos.add(new Vampiro());
+                // Crear nuevo vampiro
+                Ciudadano vampiro = new Vampiro();
+                ciudadanos.add(vampiro);
 
-                System.out.println("¡" + nombreOriginal + " se ha convertido en vampiro!");
+                System.out.println("¡" + nombreConvertido + " se ha convertido en " + vampiro.getNombre() + " !");
             }
             // Caso normal: eliminación del perdedor
             else {
@@ -249,9 +265,9 @@ public class ElPuebloDormido {
         }
     }
 
-    public static void procrear(Ciudadano ciudadano) {
-        if (ciudadano instanceof ICicloVital) {
-            ((ICicloVital) ciudadano).reproducir(ciudadanos);
+    public static void procrear(Ciudadano amante1) {
+        if (amante1 instanceof ICicloVital) {
+            ((ICicloVital) amante1).reproducir(ciudadanos);
         }
     }
 
@@ -260,17 +276,36 @@ public class ElPuebloDormido {
         boolean humanos = false, lobos = false, vampiros = false;
 
         for (Ciudadano c : ciudadanos) {
-            if (c instanceof Humano) humanos = true;
-            else if (c instanceof Lobo) lobos = true;
-            else if (c instanceof Vampiro) vampiros = true;
+            if (c instanceof Humano){
+                humanos = true;
+            }
+            else if (c instanceof Lobo){
+                lobos = true;
+            }
+            else if (c instanceof Vampiro){
+                vampiros = true;
+            }
         }
 
-        if (humanos) tipos++;
-        if (lobos) tipos++;
-        if (vampiros) tipos++;
+        if (humanos){
+            tipos++;
+        }
+        if (lobos){
+            tipos++;
+        }
+        if (vampiros){
+            tipos++;
+        }
 
         if (tipos == 1) {
-            System.out.println("Solo queda un tipo de ser en el pueblo");
+            if (vampiros){
+                System.out.println("Solo queda un tipo de ser en el pueblo, HAN GANADO LOS VAMPIROS");
+            } else if (humanos) {
+                System.out.println("Solo queda un tipo de ser en el pueblo, HAN GANADO LOS HUMANOS");
+            }else if (lobos){
+                System.out.println("Solo queda un tipo de ser en el pueblo, HAN GANADO LOS LOBOS");
+
+            }
             System.exit(0);
         }
     }
